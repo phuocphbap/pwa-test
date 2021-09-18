@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Advertising;
 //auth-test
+
 //thopham
+
+//new project
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateMediaAdvertisingRequest;
 use App\Http\Requests\Admin\DestroyAdvertisingMediaRequest;
