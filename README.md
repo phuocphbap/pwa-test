@@ -5,4 +5,5 @@ BASE PROJECT
 3) Laravel-composer
 ## run server
 1) composer install
-2) php artisan serve
+2) update .env 
+3) php artisan serve
