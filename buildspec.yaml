@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+       - echo "pre-build"
+       - apt update -y
+#        - apt install -y ssh rsync
+       - mkdir -p ~/.ssh
+       - chmod 700 ~/.ssh
+#        - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+       - aws s3 cp s3://codepipeline-ap-northeast-1-678195237150/pem/pwa-dev.pem ~/.ssh/id_rsa
+       - chmod 600 ~/.ssh/id_rsa
+       - cat ~/.ssh/id_rsa
+  build:
+    commands:
+       - rsync -hrz --delete -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./ centos@10.0.1.166:/srv/admin-test

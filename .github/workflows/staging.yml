@@ -1,0 +1,38 @@
+name: Deploy application
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Build admin-stg
+        env:
+          DOTENV_DEV_PASS: ${{ secrets.DOTENV_DEV_PASS }}
+          CI_DEV_DB_DATABASE: ${{ secrets.CI_DEV_DB_DATABASE }}
+          CI_DEV_DB_HOST: ${{ secrets.CI_DEV_DB_HOST }}
+          CI_DEV_DB_PASSWORD: ${{ secrets.CI_DEV_DB_PASSWORD }}
+          CI_DEV_DB_USERNAME: ${{ secrets.CI_DEV_DB_USERNAME }}
+
+        run: |
+          echo $(pwd)
+          export VAULT_ADDR='http://vault.shareshite.com'
+          vault login ${{ secrets.VAULT_TOKEN }}
+          vault kv get -field=STG_API_ENV_FILE secret/pwa > .env
+          sed -i "s~CI_DB_DATABASE~$CI_DEV_DB_DATABASE~g" .env.docker
+          sed -i "s~CI_DB_USERNAME~$CI_DEV_DB_USERNAME~g" .env.docker
+          sed -i "s~CI_DB_PASSWORD~$CI_DEV_DB_PASSWORD~g" .env.docker
+
+          #composer install
+          rsync -hrz $(pwd)/ /srv/admin-pwa-stg
+          cd /srv/admin-pwa-stg
+          docker-compose -f docker-compose-stg.yml up -d --build
+          sleep 5
+          docker-compose -f docker-compose-stg.yml exec -T laravel-stg php artisan migrate
+          #docker-compose -f docker-compose-stg.yml exec -T laravel-stg php artisan db:seed
+          docker-compose -f docker-compose-stg.yml exec -T laravel-stg php artisan passport:install
+        shell: bash

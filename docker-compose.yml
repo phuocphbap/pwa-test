@@ -1,0 +1,43 @@
+version: '3'
+services:
+    laravel:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: 'laravel-pwa'
+        ports:
+            - '8000:8000'
+        working_dir: '/app'
+
+        environment:
+            LARAVEL_SAIL: 1
+        command: 'php artisan serve --host 0.0.0.0 --port 8000'
+        volumes:
+            - './storage/logs/:/app/storage/logs/'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+
+    mysql:
+        image: 'mysql:5.7'
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'sailmysql:/var/lib/mysql'
+        networks:
+            - sail
+        env_file:
+          - .env.docker
+networks:
+    sail:
+        driver: bridge
+volumes:
+    sailmysql:
+        driver: local

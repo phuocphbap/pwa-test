@@ -1,0 +1,12 @@
+/node_modules
+/public/storage
+/vendor
+.env
+.env.dev
+.env.stg
+.env.bak
+.env.example
+.env.example.bak
+/storage/*.key
+.vscode/
+.history/

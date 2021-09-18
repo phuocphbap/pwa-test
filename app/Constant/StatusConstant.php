@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Constant;
+
+class StatusConstant
+{
+    const USER_INACTIVE = 0;
+    const USER_ACTIVE = 1;
+    const USER_BLACKLIST = 2;
+    const USER_LEAVE_GROUP = 3;
+
+    const USER_IS_NOT_BLACK_LIST = 0;
+    const USER_IS_BLACK_LIST = 1;
+
+    const IDENTITY_PENDING_STATUS = 'PENDING';
+    const IDENTITY_PROCESS_STATUS = 'PROCESS';
+    const IDENTITY_ACCEPT_STATUS = 'ACCEPTED';
+    const IDENTITY_REJECT_STATUS = 'REJECTED';
+    const KYC_PROFILE_UPDATED = 1;
+
+    const TRANSACTION_PAYMENT = 'PAYMENT';
+    const TRANSACTION_RECEIVE_PAYMENT = 'RECEIVE_PAYMENT';
+    const TRANSACTION_WITHDRAW = 'WITHDRAW';
+    const TRANSACTION_BONUS = 'BONUS';
+    const TRANSACTION_REFUND = 'REFUND';
+
+    const TRANSACTION_TYPE_WALLET_EXPIRE = 'App\Entities\WalletExpire';
+    const TRANSACTION_TYPE_WALLET = 'App\Entities\Wallet';
+
+    const BONUS_TYPE_ADMIN = 'ADMIN';
+    const BONUS_TYPE_REFFERAL = 'REFFERAL';
+    const BONUS_TYPE_INPUT_REFFERAL = 'INPUT_REFFERAL';
+
+    const PROGRESS_ARE_PROVIDING = 1;
+    const PROGRESS_ARE_RECEIVING = 2;
+
+    const CONSULTING_STATE_INACTIVE = 0;
+    const CONSULTING_STATE_ACTIVE = 1;
+
+    const CHAT_TYPE_CONSULTING = 'consulting';
+    const CHAT_TYPE_CHATTING = 'chatting';
+
+    const SUGGEST_SORT_ZERO = 0;
+
+    const ADVERTISING_TYPE_SERVICE = 1;
+    const ADVERTISING_TYPE_SUGGEST = 2;
+    const ADVERTISING_TYPE_STORE = 3;
+    const ADVERTISING_TYPE_SPOT = 4;
+
+    const ADVERTISING_NAME_SERVICE = 'みんなのサービス';
+    const ADVERTISING_NAME_SUGGEST = 'おすすめ';
+    const ADVERTISING_NAME_STORE = 'みんなのストア';
+    const ADVERTISING_NAME_SPOT = '近くのスポット';
+
+    const SERVICE_SORT_TRUE = 1;
+    const SERVICE_SORT_FALSE = 0;
+
+    const SERVICE_IS_BLOCKED = 1;
+    const SERVICE_NOT_IS_BLOCKED = 0;
+
+    const TYPE_TERMS_OF_USE = 'TERMS_OF_USE';
+    const TYPE_SYMBOL = 'SYMBOL';
+    const TYPE_PRIVACY_POLICY = 'PRIVACY_POLICY';
+
+    const CONTACT_EMAIL_UNANSWERED = 0;
+    const CONTACT_EMAIL_ANSWERED = 1;
+
+    const PROGRESS_STEP_PAYMENT = 2;
+
+    const TYPE_DELETE = 'DELETE';
+    const TYPE_UPDATE = 'UPDATE';
+    const TYPE_ADMIN = 'ADMIN';
+
+    const PROGRESS_BEFORE_AGREEMENT = 0;
+    const PROGRESS_CONFIRMED_REQUEST = 1;
+    const PROGRESS_UNDER_AGREEMENT = 2;
+    const PROGRESS_WAITING_EVALUATION = 3;
+    const PROGRESS_DONE = 4;
+}

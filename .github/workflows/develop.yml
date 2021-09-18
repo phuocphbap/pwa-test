@@ -1,0 +1,36 @@
+name: Deploy Develop
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Build admin-dev
+        env:
+          CI_DEV_DB_DATABASE: ${{ secrets.CI_DEV_DB_DATABASE }}
+          CI_DEV_DB_PASSWORD: ${{ secrets.CI_DEV_DB_PASSWORD }}
+          CI_DEV_DB_USERNAME: ${{ secrets.CI_DEV_DB_USERNAME }}
+
+
+        run: |
+          echo $(pwd)
+          export VAULT_ADDR='http://vault.shareshite.com'
+          vault login ${{ secrets.VAULT_TOKEN }}
+          vault kv get -field=DEV_API_ENV_FILE secret/pwa > .env
+          sed -i "s~CI_DB_DATABASE~$CI_DEV_DB_DATABASE~g" .env.docker
+          sed -i "s~CI_DB_USERNAME~$CI_DEV_DB_USERNAME~g" .env.docker
+          sed -i "s~CI_DB_PASSWORD~$CI_DEV_DB_PASSWORD~g" .env.docker
+          #composer install
+          rsync -hrz $(pwd)/ /srv/admin-pwa
+          cd /srv/admin-pwa
+          docker-compose up -d --build
+          sleep 5
+          docker-compose exec -T laravel php artisan migrate
+          #docker-compose exec -T laravel php artisan db:seed
+          docker-compose exec -T laravel php artisan passport:install
+        shell: bash
